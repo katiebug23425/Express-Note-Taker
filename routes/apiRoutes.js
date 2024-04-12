@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const router = express.Router();
-const uuid = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 router.get('/api/notes', (req, res) => {
     try {
@@ -27,7 +27,7 @@ router.post('/api/notes', (req, res) => {
             newNote = {
                 title: req.body.title,
                 text: req.body.text,
-                id: uuid(),
+                id: uuidv4(),
             };
 
             savedNotes.push(newNote);
