@@ -44,11 +44,17 @@ router.post('/api/notes', (req, res) => {
 router.delete('/api/notes/:id', (req, res) => {
     const noteId = req.params.id;
     
+    console.log('Deleting note with ID:', noteId);
+    
     try {
         let noteData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-        const noteIndex = noteData.findIndex(note => note.id === parseInt(noteId));
+        console.log('Existing notes:', noteData);
+        
+        const noteIndex = noteData.findIndex(note => note.id === noteId);
+        console.log('Index of note to delete:', noteIndex);
         
         if (noteIndex !== -1) {
+            // Remove the note with the matching ID
             noteData.splice(noteIndex, 1);
             fs.writeFileSync(filePath, JSON.stringify(noteData, null, 2));
             res.json({ message: 'Note Deleted!' });
@@ -60,5 +66,4 @@ router.delete('/api/notes/:id', (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
 module.exports = router;
